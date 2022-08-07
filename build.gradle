@@ -1,0 +1,54 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.1'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+dependencyManagement {
+    dependencies {
+        dependency 'org.projectlombok:lombok:1.18.24'
+        dependency 'com.google.code.findbugs:jsr305:3.0.2'
+        dependency 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+        dependency 'com.h2database:h2:2.1.214'
+    }
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    compileOnly 'com.google.code.findbugs:jsr305'
+    annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter'
+    runtimeOnly 'com.h2database:h2'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.withType(AbstractCompile) {
+    options.encoding = 'UTF-8'
+    options.compilerArgs += [
+        '-Xlint:all', '-Xlint:-processing', '-Xlint:-fallthrough',
+        '-parameters'
+    ]
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

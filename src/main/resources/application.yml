@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+debug: true
+
+logging:
+  level:
+    com.example: DEBUG
+
+spring:
+  mvc:
+    throw-exception-if-no-handler-found: TRUE
+  web:
+    resources:
+      add-mappings: false
+  datasource:
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;IGNORECASE=TRUE
+  sql:
+    init:
+      mode: always
+
+mybatis:
+  configuration:
+    use-generated-keys: true
+    map-underscore-to-camel-case: true
+    

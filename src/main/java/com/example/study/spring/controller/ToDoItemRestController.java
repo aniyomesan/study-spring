@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.study.spring.exception.BadRequestException;
 import com.example.study.spring.exception.NotFoundException;
 import com.example.study.spring.model.ToDoItem;
 import com.example.study.spring.service.ToDoItemService;
@@ -34,7 +35,11 @@ public class ToDoItemRestController {
 
     @GetMapping("/todos/{id}")
     public ToDoItem findItem(@PathVariable int id) {
-        return toDoItemService.findItem(id);
+        ToDoItem toDoItem = toDoItemService.findItem(id);
+        if (toDoItem == null) {
+            throw new NotFoundException("Not Found.");
+        }
+        return toDoItem;
     }
 
     @PostMapping("/todos")
@@ -44,16 +49,22 @@ public class ToDoItemRestController {
 
     @PutMapping("/todos/{id}")
     public ToDoItem updateItem(@PathVariable int id, @RequestBody @Validated ToDoItem item) {
-        ToDoItem toDoItem = toDoItemService.findItemForUpdate(id);
-        if (toDoItem == null) {
-            throw new NotFoundException("");
+        if (id != item.getId()) {
+            throw new BadRequestException("Bad Request.");
         }
-        return toDoItemService.updateItem(item);
+        if (toDoItemService.findItemForUpdate(id) == null) {
+            throw new NotFoundException("Not Found.");
+        }
+        ToDoItem toDoItem = toDoItemService.updateItem(item);
+        return toDoItem;
     }
 
     @DeleteMapping("/todos/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteItem(@PathVariable int id) {
+        if (toDoItemService.findItemForUpdate(id) == null) {
+            throw new NotFoundException("Not Found.");
+        }
         toDoItemService.deleteItem(id);
     }
 }

@@ -13,13 +13,13 @@
   <select id="findItem" parameterType="int" resultMap="ToDoItemResult">
     SELECT id, title, done FROM TODO WHERE id = #{id}
   </select>
-  <select id="findItemForUpdate">
+  <select id="findItemForUpdate" parameterType="int" resultMap="ToDoItemResult">
     SELECT id, title, done FROM TODO WHERE id = #{id}
   </select>
   <insert id="createItem" parameterType="com.example.study.spring.model.ToDoItem" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO todo (title, done) VALUES (#{title}, #{done})
   </insert>
-  <update id="updateItem" parameterType="com.example.study.spring.model.ToDoItem">
+  <update id="updateItem" parameterType="com.example.study.spring.model.ToDoItem" useGeneratedKeys="true" keyProperty="id">
     UPDATE todo SET id = #{id}, title = #{title}, done = #{done} WHERE id = #{id}
   </update>
   <delete id="deleteItem" parameterType="com.example.study.spring.model.ToDoItem">

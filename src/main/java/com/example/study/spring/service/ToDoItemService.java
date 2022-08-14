@@ -23,19 +23,19 @@ public class ToDoItemService {
         return toDoItemRepository.findItem(id);
     }
 
-    public ToDoItem findItemForUodate(int id) {
-        return toDoItemRepository.findItemForUpdate(id);
-    }
-
-    public void createItem(ToDoItem item) {
+    public ToDoItem createItem(ToDoItem item) {
         toDoItemRepository.createItem(item);
+        return item;
     }
 
-    public void updateItem(ToDoItem item) {
+    public ToDoItem updateItem(ToDoItem item) {
         toDoItemRepository.updateItem(item);
+        return item;
     }
 
-    public void deleteItem(ToDoItem item) {
-        toDoItemRepository.deleteItem(item);
+    public void deleteItem(int id) {
+        ToDoItem toDoItem = new ToDoItem();
+        toDoItem.setId(id);
+        toDoItemRepository.deleteItem(toDoItem);
     }
 }

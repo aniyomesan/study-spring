@@ -28,31 +28,27 @@ public class ToDoItemRestController {
 
     @GetMapping("/todos")
     public List<ToDoItem> findAllItems() {
-        // FIXME not implemented yet.
-        return null;
+        return toDoItemService.findAlItems();
     }
 
     @GetMapping("/todos/{id}")
     public ToDoItem findItem(@PathVariable int id) {
-        // FIXME not implemented yet.
-        return null;
+        return toDoItemService.findItem(id);
     }
 
     @PostMapping("/todos")
     public ToDoItem createItem(@RequestBody @Validated ToDoItem item) {
-        // FIXME not implemented yet.
-        return null;
+        return toDoItemService.createItem(item);
     }
 
     @PutMapping("/todos/{id}")
     public ToDoItem updateItem(@PathVariable int id, @RequestBody @Validated ToDoItem item) {
-        // FIXME not implemented yet.
-        return null;
+        return toDoItemService.updateItem(item);
     }
 
     @DeleteMapping("/todos/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteItem(@PathVariable int id) {
-        // FIXME not implemented yet.
+        toDoItemService.deleteItem(id);
     }
 }

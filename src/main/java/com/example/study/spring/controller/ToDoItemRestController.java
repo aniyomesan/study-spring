@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.study.spring.exception.NotFoundException;
 import com.example.study.spring.model.ToDoItem;
 import com.example.study.spring.service.ToDoItemService;
 
@@ -43,6 +44,10 @@ public class ToDoItemRestController {
 
     @PutMapping("/todos/{id}")
     public ToDoItem updateItem(@PathVariable int id, @RequestBody @Validated ToDoItem item) {
+        ToDoItem toDoItem = toDoItemService.findItemForUpdate(id);
+        if (toDoItem == null) {
+            throw new NotFoundException("");
+        }
         return toDoItemService.updateItem(item);
     }
 

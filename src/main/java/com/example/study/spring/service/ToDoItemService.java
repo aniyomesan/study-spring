@@ -23,6 +23,10 @@ public class ToDoItemService {
         return toDoItemRepository.findItem(id);
     }
 
+    public ToDoItem findItemForUpdate(int id) {
+        return toDoItemRepository.findItemForUpdate(id);
+    }
+
     public ToDoItem createItem(ToDoItem item) {
         toDoItemRepository.createItem(item);
         return item;

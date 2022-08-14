@@ -8,6 +8,7 @@
     <result property="title" column="title" />
     <result property="done" column="done" />
   </resultMap>
-
-  <!-- FIXME not implemented yet -->
+  <select id="findAllItems" resultMap="ToDoItemResult">
+    SELECT * FROM TODO;
+  </select>
 </mapper>

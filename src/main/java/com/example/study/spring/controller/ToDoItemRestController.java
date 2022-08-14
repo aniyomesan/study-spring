@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.study.spring.model.ToDoItem;
+import com.example.study.spring.service.ToDoItemService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +23,8 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class ToDoItemRestController {
+
+    private final ToDoItemService toDoItemService;
 
     @GetMapping("/todos")
     public List<ToDoItem> findAllItems() {

@@ -15,61 +15,61 @@
 ### API 仕様
 
 * GET /api/v1/todos
-  * 全アイテムを取得する
-  * request
-    * query: なし
-    * body: なし
-  * response
-    * status code
-      * 200: 成功
-    * body: `[<todo item>, ...]`
+  - 全アイテムを取得する
+  - request
+    - query: なし
+    - body: なし
+  - response
+    - status code
+      - 200: 成功
+    - body: `[<todo item>, ...]`
 
 * GET /api/v1/todos/{id}
-  * `{id}` で指定したアイテムを取得する
-  * request
-    * query: なし
-    * body: なし
-  * response
-    * status code
-      * 200: 成功
-      * 404: 指定したIDを持つアイテムが見つからない場合
-    * body: `<todo item>`
+  - `{id}` で指定したアイテムを取得する
+  - request
+    - query: なし
+    - body: なし
+  - response
+    - status code
+      - 200: 成功
+      - 404: 指定したIDを持つアイテムが見つからない場合
+    - body: `<todo item>`
 
 * POST /api/v1/todos
-  * 指定の内容でアイテムを新規作成 (追加) する
-  * request
-    * query: なし
-    * body: `<todo item>`
-      * id は指定不要 (自動で埋められる)
-  * response
-    * status code
-      * 200: 成功
-      * 404: 指定したIDを持つアイテムが見つからない場合
-    * body: `<todo item>`
-      * id が埋まったオブジェクトを返す
+  - 指定の内容でアイテムを新規作成 (追加) する
+  - request
+    - query: なし
+    - body: `<todo item>`
+      - id は指定不要 (自動で埋められる)
+  - response
+    - status code
+      - 200: 成功
+      - 404: 指定したIDを持つアイテムが見つからない場合
+    - body: `<todo item>`
+      - id が埋まったオブジェクトを返す
 
 * PUT /api/v1/todos/{id}
-  * `{id}` で指定したアイテムを、指定の内容で更新する (完全置換)
-  * request
-    * query: なし
-    * body: なし
-  * response
-    * status code
-      * 200: 成功
-      * 400: URL path で指定したIDと request body 内のIDが異なる場合
-      * 404: 指定したIDを持つアイテムが見つからない場合
-    * body: `<todo item>`
+  - `{id}` で指定したアイテムを、指定の内容で更新する (完全置換)
+  - request
+    - query: なし
+    - body: なし
+  - response
+    - status code
+      - 200: 成功
+      - 400: URL path で指定したIDと request body 内のIDが異なる場合
+      - 404: 指定したIDを持つアイテムが見つからない場合
+    - body: `<todo item>`
 
 * DELETE /api/v1/todos/{id}
-  * `{id}` で指定したアイテムを削除する
-  * request
-    * query: なし
-    * body: なし
-  * response
-    * status code
-      * 204: 成功
-      * 404: 指定したIDを持つアイテムが見つからない場合
-    * body: なし
+  - `{id}` で指定したアイテムを削除する
+  - request
+    - query: なし
+    - body: なし
+  - response
+    - status code
+      - 204: 成功
+      - 404: 指定したIDを持つアイテムが見つからない場合
+    - body: なし
 
 ### 仕様に対するテスト
 
@@ -86,6 +86,7 @@ $ . venv/bin/activate
 
 2回目以降は `pytest .` のみでOKです。
 ※プロンプトに `(venv)` がない場合、`. venv/bin/activate` も実行します。
+
 
 ## 発展
 
@@ -105,13 +106,12 @@ GET から PUT/PATCH/DELETE の間は、ステートレスのため、ロック�
 
 そのため、排他的ロックではなく、楽観的ロック (Optimistic Lock) という方法がしばしば取られます。
 楽観的ロックは、以下のような方法で実現できます。
-
 1. リソースに、現在の内容から変更されていないことを確認できるようなプロパティを設けます。
-   * バージョン番号だったり、リソース内容のハッシュ値だったり、UUID だったり。
+   - バージョン番号だったり、リソース内容のハッシュ値だったり、UUID だったり。
 2. リソースが更新されるたび、上記のプロパティを更新します。
 3. PUT/PATCH/DELETE の際は、その前の GET で得た上記プロパティ値をセットで送ります。
-   * 現在のリソースのプロパティ値と送られてきた値を比較し、一致していたら更新します。
-   * HTTP ヘッダーの If-Match などを使って渡します。
-   * そのため、プロパティ値のことを eTag と名づけたりもします。
+   - 現在のリソースのプロパティ値と送られてきた値を比較し、一致していたら更新します。
+   - HTTP ヘッダーの If-Match などを使って渡します。
+   - そのため、プロパティ値のことを eTag と名づけたりもします。
 
 ToDo 管理API を拡張し、楽観的ロックを実現してみましょう。

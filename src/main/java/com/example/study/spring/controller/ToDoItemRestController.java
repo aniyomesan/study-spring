@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.study.spring.exception.BadRequestException;
+import com.example.study.spring.exception.NotFoundException;
 import com.example.study.spring.model.ToDoItem;
+import com.example.study.spring.service.ToDoItemService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,33 +26,45 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ToDoItemRestController {
 
+    private final ToDoItemService toDoItemService;
+
     @GetMapping("/todos")
     public List<ToDoItem> findAllItems() {
-        // FIXME not implemented yet.
-        return null;
+        return toDoItemService.findAlItems();
     }
 
     @GetMapping("/todos/{id}")
     public ToDoItem findItem(@PathVariable int id) {
-        // FIXME not implemented yet.
-        return null;
+        ToDoItem toDoItem = toDoItemService.findItem(id);
+        if (toDoItem == null) {
+            throw new NotFoundException("Not Found.");
+        }
+        return toDoItem;
     }
 
     @PostMapping("/todos")
     public ToDoItem createItem(@RequestBody @Validated ToDoItem item) {
-        // FIXME not implemented yet.
-        return null;
+        return toDoItemService.createItem(item);
     }
 
     @PutMapping("/todos/{id}")
     public ToDoItem updateItem(@PathVariable int id, @RequestBody @Validated ToDoItem item) {
-        // FIXME not implemented yet.
-        return null;
+        if (id != item.getId()) {
+            throw new BadRequestException("Bad Request.");
+        }
+        if (toDoItemService.findItemForUpdate(id) == null) {
+            throw new NotFoundException("Not Found.");
+        }
+        ToDoItem toDoItem = toDoItemService.updateItem(item);
+        return toDoItem;
     }
 
     @DeleteMapping("/todos/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteItem(@PathVariable int id) {
-        // FIXME not implemented yet.
+        if (toDoItemService.findItemForUpdate(id) == null) {
+            throw new NotFoundException("Not Found.");
+        }
+        toDoItemService.deleteItem(id);
     }
 }
